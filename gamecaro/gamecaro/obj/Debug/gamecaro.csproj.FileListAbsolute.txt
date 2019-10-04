@@ -1,0 +1,10 @@
+D:\C# LTHDT\gamecaro\gamecaro\bin\Debug\gamecaro.exe.config
+D:\C# LTHDT\gamecaro\gamecaro\bin\Debug\gamecaro.exe
+D:\C# LTHDT\gamecaro\gamecaro\bin\Debug\gamecaro.pdb
+D:\C# LTHDT\gamecaro\gamecaro\obj\Debug\gamecaro.csprojAssemblyReference.cache
+D:\C# LTHDT\gamecaro\gamecaro\obj\Debug\gamecaro.Form1.resources
+D:\C# LTHDT\gamecaro\gamecaro\obj\Debug\gamecaro.Properties.Resources.resources
+D:\C# LTHDT\gamecaro\gamecaro\obj\Debug\gamecaro.csproj.GenerateResource.cache
+D:\C# LTHDT\gamecaro\gamecaro\obj\Debug\gamecaro.csproj.CoreCompileInputs.cache
+D:\C# LTHDT\gamecaro\gamecaro\obj\Debug\gamecaro.exe
+D:\C# LTHDT\gamecaro\gamecaro\obj\Debug\gamecaro.pdb
