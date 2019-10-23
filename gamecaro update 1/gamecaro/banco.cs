@@ -21,6 +21,8 @@ namespace gamecaro
         public List<List<Button>> matranbt;
         private List<nguoichoi> nguoichoi;
         private int luotchoi;
+        public int luotdau { get; set; }
+        public int chedochoi { get; set; }
         #endregion
         #region Initialize
         public banco(Panel khungve)
@@ -30,7 +32,7 @@ namespace gamecaro
                 new nguoichoi("Lê Tiến Hòa",Image.FromFile(Application.StartupPath+ "\\anh\\Bird-yellow-icon.png")),
                 new nguoichoi("Bạn",Image.FromFile(Application.StartupPath+"\\anh\\Angry-Birds-icon.png"))
             };
-            Luotchoi = 0;
+            luotdau = 0;
             Bangluu = new Stack<LuuStack>(); 
         }
 
@@ -71,32 +73,66 @@ namespace gamecaro
                 kc.Width = 0;
                 kc.Height = 0;
             }
+            if(luotchoi==1&&luotdau==0)
+            {
+                maychoi();
+            }
         }
         private void H_Click(object sender, EventArgs e)
         {
             Button h = sender as Button;
-            if (luotchoi == 0)
+            if (chedochoi == 1)
             {
-                nguoichoi1(h);
-            }
-            if (luotchoi == 1)
-            {
-                maychoi(); 
+                if (luotchoi == 0)
+                {
+                    nguoichoi1(h);
 
+                }
+                if (luotchoi == 1)
+                {
+                    maychoi();
+
+                }
+            }
+            else
+            {
+                if (luotchoi == 0)
+                {
+                    nguoichoi1(h);
+
+                }
+                else if (luotchoi == 1)
+                {
+                    nguoichoi2(h);
+                }
             }
 
         }
         public void maychoi()
         {
-            Point h2 = chonvitri();
-            LuuStack IFplay = new LuuStack(h2, 1);
-            Bangluu.Push(IFplay);
-            matranbt[h2.Y][h2.X].BackgroundImage = DSNguoichoi[1].Bieutuong;
-            luotchoi = 0;
-            if (kiemtrathang(h2.Y, h2.X) == 1)
+            if (luotdau == 0)
             {
-                MessageBox.Show("YOU LOSE ");
-                luotchoi = 3;
+                Point h2 = new Point();
+                h2.X = 8;
+                h2.Y = 7;
+                LuuStack IFplay = new LuuStack(h2, 1);
+                Bangluu.Push(IFplay);
+                matranbt[h2.Y][h2.X].BackgroundImage = DSNguoichoi[1].Bieutuong;
+                luotchoi = 0;
+                luotdau = 1;
+            }
+            else
+            {
+                Point h2 = chonvitri();
+                LuuStack IFplay = new LuuStack(h2, 1);
+                Bangluu.Push(IFplay);
+                matranbt[h2.Y][h2.X].BackgroundImage = DSNguoichoi[1].Bieutuong;
+                luotchoi = 0;             
+                if (kiemtrathang(h2.Y, h2.X) == 1)
+                {
+                    MessageBox.Show("YOU LOSE ");
+                    luotchoi = 3;
+                }
             }
         }
         public void nguoichoi1(Button h)
@@ -105,13 +141,38 @@ namespace gamecaro
             {
                 h.BackgroundImage = DSNguoichoi[0].Bieutuong;
                 Luotchoi = 1;
+                luotdau = 1;
             }
             Point h1 = layvitri(h);
             LuuStack IFplay = new LuuStack(h1, 0);
             Bangluu.Push(IFplay);
             if (kiemtrathang(h1.Y, h1.X) == 1)
             {
-                MessageBox.Show("YOU WIN, CONGRATULATION !!!");
+                if (chedochoi == 1)
+                {
+                    MessageBox.Show("YOU WIN, CONGRATULATION !!!");
+                    luotchoi = 3;
+                }
+                else
+                {
+                    MessageBox.Show("PLAYER 1 WIN, CONGRATULATION !!!");
+                    luotchoi = 3;
+                }
+            }
+        }
+        public void nguoichoi2(Button h)
+        {
+            if (h.BackgroundImage == null)
+            {
+                h.BackgroundImage = DSNguoichoi[1].Bieutuong;
+                Luotchoi = 0;
+            }
+            Point h1 = layvitri(h);
+            LuuStack IFplay = new LuuStack(h1, 0);
+            Bangluu.Push(IFplay);
+            if (kiemtrathang(h1.Y, h1.X) == 1)
+            {
+                MessageBox.Show("PLAYER 2 WIN, CONGRATULATION !!!");
                 luotchoi = 3;
             }
         }
@@ -272,8 +333,8 @@ namespace gamecaro
             } return h;
         }
 
-        public long[] MangDiemTanCong = new long[7] { 0,13, 34, 202, 1546, 12288, 98304 };
-        public long[] MangDiemPhongNgu = new long[7] { 0, 3, 9, 81, 729, 6561, 59049 };
+        public long[] MangDiemTanCong = new long[7] { 0,12, 36, 150, 1500, 12000, 98000 };
+        public long[] MangDiemPhongNgu = new long[7] { 0, 4, 12, 36, 3600, 6000, 59000 };
         #region tancong
         public long duyetTCngang( int i,int j)
         {
@@ -640,18 +701,38 @@ namespace gamecaro
 
         public void Undo()
         {
-            if (Bangluu.Count >= 2&&luotchoi!=3)
+            if (chedochoi == 1)
             {
-                for (int i = 0; i < 2; i++)
+                if (Bangluu.Count >= 2 && luotchoi != 3)
                 {
-                    LuuStack buocdadi = new LuuStack();
-                    buocdadi = Bangluu.Pop();
-                    matranbt[buocdadi.point.Y][buocdadi.point.X].BackgroundImage = null;
-                    if (buocdadi.luuluotchoi == 1)
+                    for (int i = 0; i < 2; i++)
                     {
-                        luotchoi = 0;
+                        LuuStack buocdadi = new LuuStack();
+                        buocdadi = Bangluu.Pop();
+                        matranbt[buocdadi.point.Y][buocdadi.point.X].BackgroundImage = null;
+                        if (buocdadi.luuluotchoi == 1)
+                        {
+                            luotchoi = 0;
+                        }
+
                     }
-              
+                }
+            }
+            else
+            {
+                if (Bangluu.Count >= 1 && luotchoi != 3)
+                {
+                   LuuStack buocdadi = new LuuStack();
+                   buocdadi = Bangluu.Pop();
+                   matranbt[buocdadi.point.Y][buocdadi.point.X].BackgroundImage = null;
+                   if (buocdadi.luuluotchoi == 1)
+                   {
+                       luotchoi = 0;
+                   }
+                   else if(luotchoi==0)
+                    {
+                        luotchoi = 1;
+                    }
                 }
             }
         }
