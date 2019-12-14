@@ -1,2 +1,0 @@
-# Caro
- game caro
